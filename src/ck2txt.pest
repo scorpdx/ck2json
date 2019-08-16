@@ -1,8 +1,45 @@
-alpha = { 'a'..'z' | 'A'..'Z' }
-digit = { '0'..'9' }
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
 
-ident = { (alpha | digit)+ }
+header = { "CK2txt" }
 
-ident_list = _{ !digit ~ ident ~ (" " ~ ident)+ }
-          // ^
-          // ident_list rule is silent (produces no tokens or error reports)
+identifier = { (ASCII_ALPHA | "_")+ }
+
+object = {
+    "{" ~ "}" |
+    "{" ~ pair* ~ "}"
+}
+
+pair = { identifier ~ "=" ~ value }
+
+array = {
+    "[" ~ "]" |
+    "[" ~ value* ~ "]"
+}
+
+value = _{ object | array | date | string | number | boolean }
+
+boolean = { "yes" | "no" }
+
+string = ${ "\"" ~ inner ~ "\"" }
+inner = @{ char* }
+char = {
+    !("\"" | "\\") ~ ANY
+    | "\\" ~ ("\"" | "\\" | "/" | "b" | "f" | "n" | "r" | "t")
+    | "\\" ~ ("u" ~ ASCII_HEX_DIGIT{4})
+}
+
+number = {int|float}
+
+int = @{"-"? ~ ASCII_DIGIT+}
+float = @{int? ~ "." ~ ASCII_DIGIT+ ~ "f"?}
+
+date = _{("\"" ~ date_inner ~ "\"") | date_inner}
+date_inner = @{ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+ }
+
+file = _{
+    SOI ~
+    header ~
+    pair* ~
+    "}" ~ pair ~
+    EOI
+}
