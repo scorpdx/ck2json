@@ -2,7 +2,7 @@ WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
 
 header = { "CK2txt" }
 
-identifier = { (ASCII_ALPHA | "_")+ }
+identifier = @{ (ASCII_ALPHA | "_")+ }
 
 object = {
     "{" ~ "}" |
@@ -28,7 +28,7 @@ char = {
     | "\\" ~ ("u" ~ ASCII_HEX_DIGIT{4})
 }
 
-number = {int|float}
+number = { float | int }
 
 int = @{"-"? ~ ASCII_DIGIT+}
 float = @{int? ~ "." ~ ASCII_DIGIT+ ~ "f"?}
