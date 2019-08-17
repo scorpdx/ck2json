@@ -29,19 +29,21 @@ char = {
     | "\\" ~ ("u" ~ ASCII_HEX_DIGIT{4})
 }
 
-number = { float | int }
+number = @{ float | int }
 
 int = @{"-"? ~ ASCII_DIGIT+}
 float = @{int? ~ "." ~ ASCII_DIGIT+ ~ "f"?}
 
-date = { date_string | date_inner}
-date_string = ${ "\"" ~ date_inner ~ "\"" }
+date = ${ ("\"" ~ date_inner ~ "\"") | date_inner }
 date_inner = @{ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+ }
+
+body = { pair* ~ "}" }
+checksum = { pair }
 
 file = _{
     SOI ~
     header ~
-    pair* ~
-    "}" ~ pair ~
+    body ~
+    checksum ~
     EOI
 }
