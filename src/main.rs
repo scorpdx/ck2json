@@ -61,29 +61,53 @@ fn parse_json_file(file: &str) -> Result<JSONValue, Error<Rule>> {
                 pair.into_inner()
                     .map(|pair| {
                         let mut inner_rules = pair.into_inner();
-                        let name = inner_rules
+                        let inner_pair = inner_rules
                             .next()
-                            .unwrap()
-                            .into_inner()
-                            .next()
-                            .unwrap()
-                            .as_str();
-                        let value = parse_value(inner_rules.next().unwrap());
+                            .expect("inner_pair was None");
+                        let inner_pair_identifier = inner_pair;
+                            // .into_inner()
+                            // .next();
+                            //.expect("inner_pair_identifier was None");
+                        let name = inner_pair_identifier.as_str();/* match inner_pair_identifier {
+                            Some(ipi) => ipi.as_str(),
+                            None => ""
+                        }; */
+                        let value = parse_value(inner_rules.next().expect("@3 inner_rules.next() was None"));
+                        // println!("JSONValue::Object {0}:{1}", name, serialize_jsonvalue(&value));
                         (name, value)
                     })
                     .collect(),
             ),
-            Rule::array => JSONValue::Array(pair.into_inner().map(parse_value).collect()),
+            Rule::array => {
+                // println!("JSONValue::Array");
+                JSONValue::Array(pair.into_inner().map(parse_value).collect())
+            },
             Rule::string
-            | Rule::date => JSONValue::String(pair.into_inner().next().unwrap().as_str()),
-            Rule::number => JSONValue::Number(pair.as_str().parse().unwrap()),
-            Rule::boolean => JSONValue::Boolean(pair.as_str() == "yes"),
+            | Rule::date => {
+                let instr = pair.into_inner().next().unwrap().as_str();
+                // println!("JSONValue::String {0}", instr);
+                JSONValue::String(instr)
+            },
+            Rule::tag => {
+                 let instr = pair.as_str();
+            //    println!("JSONValue::String {0}", instr);
+               JSONValue::String(instr)
+            },
+            Rule::number => {
+                let innum = pair.as_str().parse().unwrap();
+                // println!("JSONValue::Number {0}", innum);
+                JSONValue::Number(innum)
+            },
+            Rule::boolean => {
+                let inbool = pair.as_str() == "yes";
+                // println!("JSONValue::Boolean {0}", inbool);
+                JSONValue::Boolean(inbool)
+            },
             //Rule::null => JSONValue::Null,
             Rule::file
             | Rule::EOI
             | Rule::header
             | Rule::identifier
-            | Rule::tag
             | Rule::checksum
             | Rule::pair
             | Rule::value
@@ -92,7 +116,12 @@ fn parse_json_file(file: &str) -> Result<JSONValue, Error<Rule>> {
             | Rule::int
             | Rule::float
             | Rule::date_inner
-            | Rule::WHITESPACE => unreachable!(),
+            | Rule::WHITESPACE => {
+                println!("Rule:    {:?}", pair.as_rule());
+                println!("Span:    {:?}", pair.as_span());
+                println!("Text:    {}", pair.as_str());
+                unreachable!()
+            }
         }
     }
 
@@ -123,6 +152,7 @@ fn main() {
     let json: JSONValue = parse_json_file(&file_text).expect("unsuccessful parse");
 
     println!("{}", serialize_jsonvalue(&json));
+    return;
 
     let pairs = CK2Parser::parse(Rule::file, &file_text).unwrap_or_else(|e| panic!("{}", e));
 
@@ -135,12 +165,16 @@ fn main() {
 
         // A pair can be converted to an iterator of the tokens which make it up:
         for inner_pair in pair.into_inner() {
-            match inner_pair.as_rule() {
+            println!("InnerRule:    {:?}", inner_pair.as_rule());
+            println!("InnerSpan:    {:?}", inner_pair.as_span());
+            println!("InnerText:    {}", inner_pair.as_str());
+
+            /* match inner_pair.as_rule() {
                 Rule::identifier => println!("ok"),
                 // Rule::alpha => println!("Letter:  {}", inner_pair.as_str()),
                 // Rule::digit => println!("Digit:   {}", inner_pair.as_str()),
                 _ => unreachable!()
-            };
+            }; */
         }
     }
 }

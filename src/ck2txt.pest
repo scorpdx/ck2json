@@ -2,7 +2,7 @@ WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
 
 header = { "CK2txt" }
 
-identifier = { tag }
+identifier = @{ tag }
 tag = @{ (ASCII_ALPHANUMERIC | "_" | "-" | ".")+ }
 
 object = {
