@@ -29,12 +29,12 @@ steps:
       echo "##vso[task.setvariable variable=PATH;]%PATH%;%USERPROFILE%\.cargo\bin"
     displayName: Windows install rust
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
-  - script: cargo build --all --release
+  - script: cargo build --all --release --out-dir $(Build.ArtifactStagingDirectory)
     displayName: Cargo build
   - script: cargo test --all --release
     displayName: Cargo test
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/target/release/'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'assets'
       publishLocation: 'Container'
