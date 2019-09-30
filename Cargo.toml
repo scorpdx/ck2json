@@ -2,6 +2,9 @@
 name = "ck2json"
 version = "0.1.0"
 authors = ["J. Zebedee <zebedee@code.gripe>"]
+description = "Convert CK2txt-format files to JSON"
+license = "MIT"
+repository = "https://github.com/scorpdx/ck2json"
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
