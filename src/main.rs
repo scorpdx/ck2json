@@ -99,10 +99,10 @@ fn parse_json_file(file: &str) -> Result<JSONValue, Error<Rule>> {
 }
 
 fn main() {
-    let matches = App::new("ck2parser")
+    let matches = App::new("ck2json")
         .version("0.1.0")
         .author("J. Zebedee <zebedee@code.gripe>")
-        .about("CK2 grammar parser in Rust")
+        .about("Convert CK2txt-format files to JSON")
         .arg(Arg::with_name("file")
                  .required(true)
                  .takes_value(true)
@@ -119,6 +119,5 @@ fn main() {
     transcoded.read_to_string(&mut file_text).expect("cannot transcode file");
 
     let json: JSONValue = parse_json_file(&file_text).expect("unsuccessful parse");
-
     println!("{}", serialize_jsonvalue(&json));
 }
