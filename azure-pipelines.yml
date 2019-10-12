@@ -7,14 +7,17 @@ strategy:
       imageName: 'windows-latest'
       rustup_toolchain: stable
       rust_target: 'x86_64-pc-windows-msvc'
+      artifact: 'win_x86_64'
     mac:
       imageName: 'macOS-latest'
       rustup_toolchain: stable
       rust_target: 'x86_64-apple-darwin'
+      artifact: 'mac_x86_64'
     linux:
       imageName: 'ubuntu-latest'
       rustup_toolchain: stable
       rust_target: 'x86_64-unknown-linux-gnu'
+      artifact: 'linux_x86_64'
 
 pool:
   vmImage: $(imageName)
@@ -35,4 +38,10 @@ steps:
   - script: cargo rustc --target $(RUST_TARGET) --release --bin ck2json -- -C lto
     displayName: Compile ck2json
   - publish: 'target/$(RUST_TARGET)/release/ck2json'
-    artifact: $(RUST_TARGET)
+    displayName: 'Publish artifacts'
+    condition: ne( variables['Agent.OS'], 'Windows_NT' )
+    artifact: $(artifact)
+  - publish: 'target\$(RUST_TARGET)\release\ck2json'
+    displayName: 'Publish artifacts (win)'
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    artifact: $(artifact)
