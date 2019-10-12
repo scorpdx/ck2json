@@ -41,7 +41,7 @@ steps:
     displayName: 'Publish artifacts'
     condition: ne( variables['Agent.OS'], 'Windows_NT' )
     artifact: $(artifact)
-  - publish: 'target\$(RUST_TARGET)\release\ck2json'
+  - publish: 'target\$(RUST_TARGET)\release\ck2json.exe'
     displayName: 'Publish artifacts (win)'
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     artifact: $(artifact)
