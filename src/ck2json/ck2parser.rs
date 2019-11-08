@@ -8,7 +8,7 @@ pub struct CK2Parser;
 
 use crate::json::JSONValue;
 
-pub fn parse_ck2(ck2txt: &str) -> Result<JSONValue, Error<Rule>> {
+pub fn parse(ck2txt: &str) -> Result<JSONValue, Error<Rule>> {
     let parsing_iter = CK2Parser::parse(Rule::file, ck2txt)?.skip(1).next().unwrap();
 
     use pest::iterators::Pair;
