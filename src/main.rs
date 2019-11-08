@@ -27,6 +27,7 @@ fn main() {
                  .index(1)
                  .help("CK2txt-format file to parse"))
         .arg(Arg::with_name("grammar")
+                 .possible_values(&["ck2txt", "cultures"])
                  .default_value("ck2txt"))
         .get_matches();
 
@@ -38,6 +39,12 @@ fn main() {
     let mut file_text = String::new();
     transcoded.read_to_string(&mut file_text).expect("cannot transcode file");
 
-    let json: JSONValue = ck2parser::parse_ck2(&file_text).expect("unsuccessful parse");
+    let grammar_name = matches.value_of("grammar").unwrap();
+    let json = match grammar_name {
+        "ck2txt" => ck2parser::parse(&file_text).expect("unsuccessful parse"),
+        "cultures" => cultureparser::parse(&file_text).expect("unsuccessful parse"),
+        _ => unreachable!("unknown grammar type")
+    };
+
     println!("{}", serialize_jsonvalue(&json));
 }
