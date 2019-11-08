@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'ck2parser'",
+            "name": "Debug executable 'ck2json'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=ck2parser",
-                    "--package=ck2parser"
+                    "--bin=ck2json",
+                    "--package=ck2json"
                 ],
                 "filter": {
-                    "name": "ck2parser",
+                    "name": "ck2json",
                     "kind": "bin"
                 }
             },
@@ -25,23 +25,23 @@
 				"RUST_BACKTRACE": "1"
             },
             "sourceLanguages": ["rust"],
-            "args": ["\"C:\\Users\\scorp\\Documents\\Paradox","Interactive\\Crusader","Kings II\\save","games\\ironmunge_Ironman_West_Francia_HaR\\Ironman_West_Francia_HaR.ck2\""],
-            //"args": ["\"C:\\Users\\scorp\\Documents\\Paradox","Interactive\\Crusader","Kings II\\save","games\\ironmunge_Ironman_West_Francia_HaR\\meta\""],
+            //"args": ["C:\\Dropbox\\Data\\LocalRepos\\scorpdx\\ck2json\\Ironman_llywelyn_gwynedd\\Ironman_llywelyn_gwynedd.ck2"],
+            "args": ["C:\\cultures.txt","cultures"],
             "cwd": "${workspaceFolder}"
         },
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'ck2parser'",
+            "name": "Debug unit tests in executable 'ck2json'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=ck2parser",
-                    "--package=ck2parser"
+                    "--bin=ck2json",
+                    "--package=ck2json"
                 ],
                 "filter": {
-                    "name": "ck2parser",
+                    "name": "ck2json",
                     "kind": "bin"
                 }
             },
