@@ -25,7 +25,8 @@
 				"RUST_BACKTRACE": "1"
             },
             "sourceLanguages": ["rust"],
-            "args": ["C:\\Dropbox\\Data\\LocalRepos\\scorpdx\\ck2json\\Ironman_llywelyn_gwynedd\\Ironman_llywelyn_gwynedd.ck2"],
+            //"args": ["C:\\Dropbox\\Data\\LocalRepos\\scorpdx\\ck2json\\Ironman_llywelyn_gwynedd\\Ironman_llywelyn_gwynedd.ck2"],
+            "args": ["C:\\cultures.txt","cultures"],
             "cwd": "${workspaceFolder}"
         },
         {
