@@ -41,8 +41,9 @@ float = @{int? ~ "." ~ ASCII_DIGIT+ ~ "f"?}
 date = ${ ("\"" ~ date_inner ~ "\"") | date_inner }
 date_inner = @{ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+ ~ "." ~ ASCII_DIGIT+ }
 
+body = { pair* }
 file = _{
     SOI ~
-    pair* ~
+    body ~
     EOI
 }
