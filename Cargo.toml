@@ -1,6 +1,6 @@
 [package]
 name = "ck2json"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["J. Zebedee <zebedee@code.gripe>"]
 description = "Convert CK2txt-format files to JSON"
 license = "MIT"
