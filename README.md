@@ -16,4 +16,4 @@ ARGS:
 ```
 
 ## Crate
-![Crates.io](https://img.shields.io/crates/v/ck2json)
+[![Crates.io](https://img.shields.io/crates/v/ck2json)](https://crates.io/crates/ck2json)
